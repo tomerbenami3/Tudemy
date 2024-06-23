@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Async Example</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/highlight.js/styles/default.min.css"
+    />
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js/lib/core.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js/lib/languages/javascript.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@latest/lib/highlight.js"></script>
+  </head>
+  <body>
+    <h1>Async Example</h1>
+    <div id="roleDisplay"></div>
+    <style>
+        #code {
+            width: 100%;
+            height: 200px;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #333;
+            color: #fff;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 16px;
+            line-height: 1.5;
+            resize: none; /* Disables resizing */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        #code:focus {
+            box-shadow: 0 0 8px rgba(81, 203, 238, 1);
+            outline: none;
+}
+        </style>
+        <textarea id="code"></textarea>
+        
+         <script>
+      function getCookie(name) {
+        let matches = document.cookie.match(
+          new RegExp(
+            "(?:^|; )" +
+              name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1") +
+              "=([^;]*)"
+          )
+        );
+        return matches ? decodeURIComponent(matches[1]) : undefined;
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const socket = io();
+        const textarea = document.getElementById("code");
+        const role = getCookie("role");
+        const code = getCookie("code");
+        const readOnly = getCookie("readOnly");
+        const roleDisplay = document.getElementById('roleDisplay');
+
+        if (textarea) {
+          textarea.value = code || "// No code available";
+          if (readOnly === "readonly") {
+            textarea.setAttribute("readonly", "readonly");
+          } else {
+            textarea.removeAttribute("readonly");
+          }
+        }
+
+        // hljs.highlightAll();
+
+        if (readOnly !== "readonly") {
+          textarea.addEventListener("input", () => {
+            const code = textarea.value;
+            socket.emit("code change", { code: code, blockName: "async" });
+          });
+        }
+
+        socket.on("code update", (data) => {
+          textarea.value = data.code;
+        });
+
+        socket.emit("join", { blockName: "async" });
+
+        socket.on("role assigned", (data) => {
+          roleDisplay.textContent = `You are a ${data.role}.`;
+          textarea.value = data.code;
+          if (data.role === "Mentor") {
+            textarea.setAttribute("readonly", "readonly");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

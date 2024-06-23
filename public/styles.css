@@ -1,0 +1,56 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+    display: flex;
+    flex-direction: column; /* Ensures elements are stacked vertically */
+    align-items: center; /* Center content horizontally */
+    height: auto; /* Remove full viewport height restriction */
+    min-height: 100vh; /* Ensures minimum height of the viewport */
+}
+
+h1 {
+    color: #d32f2f;
+    margin-top: 20px; /* Ensures some spacing at the top */
+    margin-bottom: 20px; /* Adds space below the header */
+    text-align: center; /* Centers the header text */
+    width: 100%; /* Ensures the header spans the full width */
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    width: 100%; /* Full width to center items */
+    max-width: 300px; /* Restrict maximum width */
+    text-align: center; /* Center text inside the list */
+}
+
+li {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    margin-top: 5px;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+li:hover {
+    transform: scale(1.05);
+    background-color: #fee; /* Light red background on hover */
+}
+
+a {
+    text-decoration: none;
+    color: inherit; /* Make the link color inherit from the parent element */
+}
+
+li a {
+    display: block; /* Make the link fill the entire list item */
+    padding: 10px;
+    height: 100%;
+}
+
