@@ -1,5 +1,5 @@
 const express = require("express");
-const session = require("express-session");
+const session = require('cookie-session');
 const http = require("http");
 const socketIo = require("socket.io");
 const hljs = require("highlight.js");
