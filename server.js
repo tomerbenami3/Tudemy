@@ -8,7 +8,6 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 
 const app = express();
-const port = 3000;
 const server = http.createServer(app);
 const io = socketIo(server);
 
@@ -20,6 +19,8 @@ const visitCounts = {
 };
 
 dotenv.config({ path: "./config.env" });
+
+const port = process.env.PORT || 3000;
 
 const DB = process.env.DATABASE.replace(
   "<PASSWORD>",
@@ -136,6 +137,6 @@ app.get("/code/:blockName", (req, res) => {
   });
   
 
-server.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
+  server.listen(port, '0.0.0.0', () => {
+    console.log(`Server running at http://localhost:${port}`);
+  });
